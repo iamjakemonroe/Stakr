@@ -250,6 +250,22 @@ otp_expiry = 3600
 # subject = "You have been invited"
 # content_path = "./supabase/templates/invite.html"
 
+# Stakr's auth flows (splash_screen.dart / email_link_screen.dart) are all
+# code-entry, not deep-link based, so every template that can carry an OTP
+# must actually render {{ .Token }} as plain text -- Supabase's stock
+# templates only show a clickable link, which our UI has nowhere to handle.
+[auth.email.template.confirmation]
+subject = "Confirm your Stakr sign-up"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.magic_link]
+subject = "Your Stakr sign-in code"
+content_path = "./supabase/templates/magic_link.html"
+
+[auth.email.template.email_change]
+subject = "Confirm your Stakr email"
+content_path = "./supabase/templates/email_change.html"
+
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
 # enabled = true

@@ -7,13 +7,6 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../providers/auth_providers.dart';
 
-/// Handles two distinct email flows behind one UI, chosen by whether the
-/// current session is anonymous at the moment the user submits their email:
-///  - anonymous session  -> [AuthRepository.linkEmail] (attaches the email to
-///    the current `auth.users.id`, preserving the coin balance)
-///  - no session          -> [AuthRepository.signInWithEmailOtp] (ordinary
-///    passwordless sign-in/sign-up)
-/// Once a valid code is confirmed, the router's redirect takes over.
 class EmailLinkScreen extends ConsumerStatefulWidget {
   const EmailLinkScreen({super.key});
 
@@ -63,7 +56,10 @@ class _EmailLinkScreenState extends ConsumerState<EmailLinkScreen> {
       if (mounted) setState(() => _step = _Step.enterCode);
     } catch (e) {
       debugPrint('send code failed (isLinking=$isAnonymous): $e');
-      setState(() => _error = 'Could not send a code. Check the address and try again.');
+      setState(
+        () =>
+            _error = 'Could not send a code. Check the address and try again.',
+      );
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -173,7 +169,9 @@ class _EmailLinkScreenState extends ConsumerState<EmailLinkScreen> {
       ),
       const SizedBox(height: AppSpacing.sm),
       TextButton(
-        onPressed: _isLoading ? null : () => setState(() => _step = _Step.enterEmail),
+        onPressed: _isLoading
+            ? null
+            : () => setState(() => _step = _Step.enterEmail),
         child: const Text('Use a different email'),
       ),
     ];

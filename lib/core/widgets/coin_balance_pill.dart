@@ -5,10 +5,11 @@ import '../../features/coins/presentation/providers/coin_balance_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_theme.dart';
+import 'pop_card.dart';
 
 /// Pill-shaped coin balance display bound to live Supabase data. Renders
 /// explicit loading/error states rather than silently showing a stale or
-/// hardcoded number.
+/// hardcoded number. Styled as a small gold-tinted glass bubble.
 class CoinBalancePill extends ConsumerWidget {
   const CoinBalancePill({super.key});
 
@@ -16,15 +17,14 @@ class CoinBalancePill extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final balance = ref.watch(coinBalanceProvider);
 
-    return Container(
+    return PopCard(
+      borderRadius: 999,
+      blur: 12,
+      tint: AppColors.accentSecondary,
+      glow: AppColors.accentSecondary,
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceElevated,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.accentSecondary.withValues(alpha: 0.4)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -48,10 +48,8 @@ class CoinBalancePill extends ConsumerWidget {
                 color: AppColors.accentSecondary,
               ),
             ),
-            error: (_, _) => const Text(
-              '—',
-              style: TextStyle(color: AppColors.error),
-            ),
+            error: (_, _) =>
+                const Text('—', style: TextStyle(color: AppColors.error)),
           ),
         ],
       ),

@@ -235,15 +235,21 @@ otp_length = 8
 # Number of seconds before the email OTP expires (defaults to 1 hour).
 otp_expiry = 3600
 
-# Use a production-ready SMTP server
-# [auth.email.smtp]
-# enabled = true
-# host = "smtp.sendgrid.net"
-# port = 587
-# user = "apikey"
-# pass = "env(SENDGRID_API_KEY)"
-# admin_email = "admin@email.com"
-# sender_name = "Admin"
+# Production SMTP via Resend, needed because Supabase's free tier blocks
+# custom email templates (subject/HTML) when using its own default mailer —
+# confirmed by a rejected `config push` on 2026-09-23. The RESEND_API_KEY
+# secret is never committed; it's read from the environment at push time
+# via the env(...) substitution, same pattern SendGrid/Twilio used above.
+# `onboarding@resend.dev` works immediately with no domain verification;
+# swap it for a verified sender on your own domain before real launch.
+[auth.email.smtp]
+enabled = true
+host = "smtp.resend.com"
+port = 587
+user = "resend"
+pass = "env(RESEND_API_KEY)"
+admin_email = "onboarding@resend.dev"
+sender_name = "Stakr"
 
 # Uncomment to customize email template
 # [auth.email.template.invite]

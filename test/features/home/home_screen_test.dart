@@ -15,6 +15,10 @@ void main() {
         overrides: [
           coinBalanceProvider.overrideWith((ref) => Stream.value(1000)),
           isAnonymousProvider.overrideWithValue(false),
+          // No signed-in user id in this test — the invite/username banners
+          // key off currentUserProvider and simply don't render without one,
+          // which keeps this test from needing a real Supabase client.
+          currentUserProvider.overrideWithValue(null),
         ],
         child: const MaterialApp(home: HomeScreen()),
       ),
@@ -34,6 +38,7 @@ void main() {
         overrides: [
           coinBalanceProvider.overrideWith((ref) => Stream.value(1000)),
           isAnonymousProvider.overrideWithValue(true),
+          currentUserProvider.overrideWithValue(null),
         ],
         child: const MaterialApp(home: HomeScreen()),
       ),

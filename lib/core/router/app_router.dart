@@ -6,6 +6,8 @@ import '../../features/auth/presentation/providers/auth_providers.dart';
 import '../../features/auth/presentation/screens/auth_choice_screen.dart';
 import '../../features/auth/presentation/screens/email_link_screen.dart';
 import '../../features/auth/presentation/screens/splash_screen.dart';
+import '../../features/chess/presentation/screens/chess_lobby_screen.dart';
+import '../../features/chess/presentation/screens/chess_match_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import 'go_router_refresh_stream.dart';
 
@@ -19,15 +21,31 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/splash',
     refreshListenable: GoRouterRefreshStream(authRepository.onAuthStateChange),
-    redirect: (context, state) => _redirect(authRepository, state.matchedLocation),
+    redirect: (context, state) =>
+        _redirect(authRepository, state.matchedLocation),
     routes: [
-      GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
-      GoRoute(path: '/auth', builder: (context, state) => const AuthChoiceScreen()),
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/auth',
+        builder: (context, state) => const AuthChoiceScreen(),
+      ),
       GoRoute(
         path: '/auth/link',
         builder: (context, state) => const EmailLinkScreen(),
       ),
       GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+      GoRoute(
+        path: '/chess',
+        builder: (context, state) => const ChessLobbyScreen(),
+      ),
+      GoRoute(
+        path: '/chess/:matchId',
+        builder: (context, state) =>
+            ChessMatchScreen(matchId: state.pathParameters['matchId']!),
+      ),
     ],
   );
 });

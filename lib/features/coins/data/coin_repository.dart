@@ -16,6 +16,8 @@ class CoinRepository {
         .from('profiles')
         .stream(primaryKey: ['id'])
         .eq('id', userId)
-        .map((rows) => rows.isEmpty ? 0 : (rows.first['balance'] as num).toInt());
+        .map(
+          (rows) => rows.isEmpty ? 0 : (rows.first['balance'] as num).toInt(),
+        );
   }
 }
